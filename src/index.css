@@ -1,3 +1,11 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-slate-900: #0f1115;
+  --color-slate-800: #1a1d24;
+}
+
+body {
+  background-color: #0f1115;
+  color: #e2e8f0;
+}
