@@ -67,15 +67,23 @@ const AppContext = createContext<any>(null);
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [data, setData] = useState(() => {
-    const saved = localStorage.getItem('stelar-erp-data');
-    if (saved) return JSON.parse(saved);
+    const saved = localStorage.getItem('stelar-erp-data-v2');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        // Ensure new schema fields exist
+        if (!parsed.labour) parsed.labour = INITIAL_DATA.labour;
+        if (!parsed.billing) parsed.billing = INITIAL_DATA.billing;
+        return parsed;
+      } catch(e) {}
+    }
     return INITIAL_DATA;
   });
 
   const [activeProjectId, setActiveProjectId] = useState('SI-2026-001');
 
   useEffect(() => {
-    localStorage.setItem('stelar-erp-data', JSON.stringify(data));
+    localStorage.setItem('stelar-erp-data-v2', JSON.stringify(data));
   }, [data]);
 
   const resetData = () => {
